@@ -37,7 +37,7 @@ class HHAPI(JobsParser):
     def load_employer_info(self, keyword):
         self.params['text'] = keyword
         self.params['locale'] = 'RU'
-        self.params['area'] = '1335' #"1317" Пермский край ,  "1335" Соликамск, Пермского края
+        self.params['area'] = '113' # "113" - Россия, "1317" - Пермский край ,  "1335" - Соликамск Пермского края
         self.params['only_with_vacancies'] = True
         while self.params.get('page') != 50:
             response = requests.get(self.url_employers, headers=self.headers, params=self.params)
