@@ -14,7 +14,7 @@ class DBManager:
 
         with conn.cursor() as cur:
             cur.execute(query, params)
-            result = cur.fetchone()[0]
+            result = cur.fetchall()
         conn.commit()
         conn.close()
         return result
@@ -33,10 +33,7 @@ class DBManager:
                 VALUES (%s, %s)
                 RETURNING key
                 """
-
         self.__sql_query(query, (employer_id, name))
-
-
 
     def get_companies_and_vacancies_count(self):
         """
@@ -45,33 +42,54 @@ class DBManager:
         query = """
                 SELECT employer.name, COUNT(vacancy.employer_id)
                 FROM employer INNER JOIN vacancy USING (employer_id)
+                GROUP BY employer.name
                 """
-
         return self.__sql_query(query)
 
     def get_all_vacancies(self):
         """
         получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию
         """
-        pass
+        query = """
+                SELECT employer.name, vacancy.name, vacancy.salary_from, vacancy.salary_to, vacancy.url
+                FROM vacancy INNER JOIN employer USING (employer_id)
+                WHERE employer.employer_id = vacancy.employer_id
+                """
+        return self.__sql_query(query)
 
     def get_avg_salary(self):
         """
         получает среднюю зарплату по вакансиям
         """
-        pass
+        query = """
+                SELECT AVG((salary_from + salary_to)/2) as average
+                FROM vacancy
+                """
+        return self.__sql_query(query)
 
     def get_vacancies_with_higher_salary(self):
         """
         получает список всех вакансий, у которых зарплата выше средней по всем вакансиям.
         """
-        pass
+        query = """
+                SELECT employer.name, vacancy.name, vacancy.salary_from, vacancy.salary_to, vacancy.url
+                FROM vacancy INNER JOIN employer USING (employer_id)
+                WHERE (employer.employer_id = vacancy.employer_id)
+                    AND (((salary_from + salary_to)/2) > (SELECT AVG((salary_from + salary_to)/2)
+                                                          FROM vacancy))
+                """
+        return self.__sql_query(query)
 
-    def get_vacancies_with_keyword(self):
+    def get_vacancies_with_keyword(self, keyword):
         """
         получает список всех вакансий, в названии которых содержатся переданные в метод слова, например python
         """
-        pass
+        query = f"""
+                SELECT employer.name, vacancy.name, vacancy.salary_from, vacancy.salary_to, vacancy.url
+                FROM vacancy INNER JOIN employer USING (employer_id)
+                WHERE (employer.employer_id = vacancy.employer_id) AND (vacancy.name LIKE '%{keyword}%')
+                """
+        return self.__sql_query(query)
 
     def create_db(self):
         """
