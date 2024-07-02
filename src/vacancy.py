@@ -20,7 +20,7 @@ class Vacancies:
             else:
                 salary_to = 0
             if vacancy.get('snippet').get('requirement') is not None:
-                requirement = vacancy.get('snippet').get('requirement').replace('<highlighttext>','').replace('</highlighttext>','')
+                requirement = vacancy.get('snippet').get('requirement').replace('<highlighttext>', '').replace('</highlighttext>', '')
             result.append(Vacancies(vacancy.get('name'), salary_from, salary_to,
                                     requirement,
                                     vacancy.get('alternate_url')))
@@ -31,6 +31,7 @@ class Vacancies:
             return self.salary_from < other.salary_from
         else:
             return self.salary_to < other.salary_to
+
     def __repr__(self):
         return (f'Вакансия : {self.name} ,'
                 f' зарплата: от {self.salary_from} до {self.salary_to},'

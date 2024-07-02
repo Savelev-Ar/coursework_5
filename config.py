@@ -3,6 +3,7 @@ from configparser import ConfigParser
 
 ROOT_DIR = os.path.dirname(__file__)
 
+
 def read_config_db(filename="database.ini", section="postgresql"):
     # create a parser
     parser = ConfigParser()
