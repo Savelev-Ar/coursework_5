@@ -14,14 +14,14 @@ class HHAPI(JobsParser):
     Класс для работы с API HeadHunter
     """
     def __init__(self):
-            self.url_vacancies = 'https://api.hh.ru/vacancies'
-            self.url_employers = 'https://api.hh.ru/employers'
-            self.headers = {'User-Agent': 'HH-User-Agent'}
-            self.params = {'text': '', 'page': 0,
-                           'per_page': 100,
-                           }
-            self.vacancies = []
-            self.employers = []
+        self.url_vacancies = 'https://api.hh.ru/vacancies'
+        self.url_employers = 'https://api.hh.ru/employers'
+        self.headers = {'User-Agent': 'HH-User-Agent'}
+        self.params = {'text': '', 'page': 0,
+                       'per_page': 100,
+                       }
+        self.vacancies = []
+        self.employers = []
 
     def load_vacancies(self, keyword):
         self.params['schedule'] = 'remote'
