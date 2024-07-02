@@ -63,7 +63,7 @@ class DBManager:
         Получает среднюю зарплату по вакансиям
         """
         query = """
-                SELECT AVG((salary_from + salary_to)/2) as average
+                SELECT AVG((salary_from + salary_to)/2)
                 FROM vacancy
                 """
         return self.__sql_query(query)

@@ -35,10 +35,19 @@ def main():
             data_base.add_vacancy(vacancy.name, vacancy.salary_from, vacancy.salary_to, vacancy.requirements, vacancy.url, emp_id['employer_id'])
     print('В базе данных:')
     print(data_base.get_companies_and_vacancies_count())
+    print('Средняя зарплата по вакансиям:')
+    print(round(float(data_base.get_avg_salary()[0][0]),2))
 
-    print_list = data_base.get_all_vacancies()
-    for line in print_list:
-        print(line)
+    if input('Хотите посмотреть вакансии с зарплатой выше средней?(д/н) ').lower() in ['y', 'д', '']:
+        print_list = data_base.get_vacancies_with_higher_salary()
+        for line in print_list:
+            print(line)
+
+    if input('Хотите провести поиск по вакансиям?(д/н) ').lower() in ['y', 'д', '']:
+        keyword = input('Введите слово для поиска: ')
+        print_list = data_base.get_vacancies_with_keyword(keyword)
+        for line in print_list:
+            print(line)
 
 
 if __name__ == "__main__":
